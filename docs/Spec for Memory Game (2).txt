@@ -48,3 +48,5 @@ Game Process and Rules:
 * After Player 1 finishes choosing his second card, the game status label says “Player 2 turn”. Upon choosing his first card, the message to player label becomes blank until Player 2 chooses a second card and the result of his turn is known. The process of choosing cards and getting points described in the previous bullet point is repeated. If Player 2 is another user, then, the user takes his turn just as Player 1 did. If player 2 is the computer, it will choose 2 cards at random. The message to player label will work the same way it worked for Player 1. After player 2 chooses his card, the game status label will say “Player 1 turn” and the message to player label will become blank when Player 1 chooses his first card.
 * The user that finds the most matches wins. If both users find an equal number of matches, then it is a tie. The game status label says the status at the end of the game, who the winner is, or tie, based on the result. If player 1 wins, the form should turn blue, if player 2 wins, the form should turn red, and if it is a tie, the form should turn purple.
 * To restart the game, press “Start.”
+
+--changed for commit
