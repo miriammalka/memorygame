@@ -48,6 +48,7 @@ namespace MemoryGameApp
             lblScorePlayer2.Text = "Score Player 2 = ";
             lblMessage.Text = "";
             btnNextTurn.Enabled = true;
+            btnNextTurn.Text = "Next Turn";
         }
 
         private void B_Click(object? sender, EventArgs e)
