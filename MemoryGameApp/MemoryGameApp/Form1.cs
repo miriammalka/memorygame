@@ -47,8 +47,9 @@ namespace MemoryGameApp
             lblScorePlayer1.Text = "Score Player 1 = ";
             lblScorePlayer2.Text = "Score Player 2 = ";
             lblMessage.Text = "";
-            btnNextTurn.Enabled = true;
             btnNextTurn.Text = "Next Turn";
+            Score1 = 0;
+            Score2 = 0;
         }
 
         private void B_Click(object? sender, EventArgs e)
@@ -130,11 +131,10 @@ namespace MemoryGameApp
 
         private void DetectingWinnerOrTie()
         {
-            //int intcards = lstcardbuttons.Count();
             if (lstcardbuttons.Count(b => b.Visible == false) == intcards - 2 && (TurnOver()))
             {
                 btnNextTurn.Text = "End Game";
-                String msg = "";
+                var msg = "";
                 if (Score1 == Score2)
                 {
                     msg = "Tie Game!";
