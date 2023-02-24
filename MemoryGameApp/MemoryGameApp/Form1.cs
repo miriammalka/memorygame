@@ -13,7 +13,8 @@ namespace MemoryGameApp
         Button button2;
         int Score1 = 0;
         int Score2 = 0;
-       
+        int intcards;
+
 
         public frmMemory()
         {
@@ -22,6 +23,7 @@ namespace MemoryGameApp
             { btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
             btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20 };
             lblGameStatus.Text = "Click Start to begin game";
+            intcards = lstcardbuttons.Count();
             btnStart.Click += BtnStart_Click;
             lstcardbuttons.ForEach(b => b.Click += B_Click);
             btnNextTurn.Click += BtnNextTurn_Click;
@@ -63,7 +65,7 @@ namespace MemoryGameApp
                 }
                 //why does this not work?
                 //btn = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ? button1 : button2;
-                if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 || 
+                if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ||
                     lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1)
                 {
                     btn.ForeColor = Color.Black;
@@ -85,7 +87,7 @@ namespace MemoryGameApp
         }
 
         private void BtnNextTurn_Click(object? sender, EventArgs e)
-        {            
+        {
             if (TurnOver())
             {
                 lstcardbuttons.ForEach(b => b.ForeColor = Color.DodgerBlue);
@@ -96,6 +98,10 @@ namespace MemoryGameApp
                 {
                     button1.Visible = false;
                     button2.Visible = false;
+                }
+                if (btnNextTurn.Text == "End Game")
+                {
+                    lblGameStatus.Text = "Press Start to start new game";
                 }
             }
         }
@@ -123,10 +129,10 @@ namespace MemoryGameApp
 
         private void DetectingWinnerOrTie()
         {
-            int intcards = lstcardbuttons.Count();
+            //int intcards = lstcardbuttons.Count();
             if (lstcardbuttons.Count(b => b.Visible == false) == intcards - 2 && (TurnOver()))
-                {
-                btnNextTurn.Enabled = false;
+            {
+                btnNextTurn.Text = "End Game";
                 String msg = "";
                 if (Score1 == Score2)
                 {
