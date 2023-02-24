@@ -148,6 +148,6 @@ namespace MemoryGameApp
         }
     }
 }
-
-//display current turn procedure?
-//display game status?
+//do yo think I should add these in? I don't want to complicate things
+//display current turn procedure
+//display game status procedure
