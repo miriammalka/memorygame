@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using System.Drawing.Text;
 
 namespace MemoryGameApp
@@ -6,16 +7,18 @@ namespace MemoryGameApp
     {
         List<Button> lstcardbuttons;
         //AF good to keep to keep to uniform naming convention - variable below should be all lowercase, as you named the rest of the variables in the project like that
-        bool GameActive = false;
+        bool gameactive = false;
         Random rnd = new();
         private enum TurnEnum { Player1, Player2 }
         TurnEnum currentturn = TurnEnum.Player1;
+        private enum GameStatusEnum { NotStarted, Playing, Winner, Tie, GameOver}
+        GameStatusEnum gamestatus = GameStatusEnum.NotStarted;
         Button button1;
         Button button2;
         int Score1 = 0;
         int Score2 = 0;
         //AF I found this to be a confusing name - what is this variable for?  The card count?  I recommend to rename it
-        int intcards;
+        int totalnumberofcards;
 
 
         public frmMemory()
@@ -24,8 +27,9 @@ namespace MemoryGameApp
             lstcardbuttons = new()
             { btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
             btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20 };
-            lblGameStatus.Text = "Click Start to begin game";
-            intcards = lstcardbuttons.Count();
+            gamestatus = GameStatusEnum.NotStarted;
+            DisplayGameStatus();
+            totalnumberofcards = lstcardbuttons.Count();
             btnStart.Click += BtnStart_Click;
             lstcardbuttons.ForEach(b => b.Click += B_Click);
             btnNextTurn.Click += BtnNextTurn_Click;
@@ -33,6 +37,7 @@ namespace MemoryGameApp
 
         private void SetupGame()
         {
+            gamestatus = GameStatusEnum.Playing;
             lstcardbuttons.ForEach(b => b.Visible = true);
             List<String> lstpictures = new() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
@@ -45,7 +50,7 @@ namespace MemoryGameApp
                 n = n - 1;
             }
             currentturn = TurnEnum.Player1;
-            lblGameStatus.Text = currentturn.ToString();
+            DisplayGameStatus();
             lblScorePlayer1.Text = "Score Player 1 = ";
             lblScorePlayer2.Text = "Score Player 2 = ";
             lblMessage.Text = "";
@@ -56,20 +61,23 @@ namespace MemoryGameApp
 
         private void B_Click(object? sender, EventArgs e)
         {
-            if (GameActive == true)
+            if (gameactive == true)
             {
-                Button btn = (Button)sender;
+                Button btn = (Button)sender;  
                 if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0)
                 {
-                    button1 = btn;
+                    button1 = btn;  
                 }
                 else if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1)
                 {
-                    button2 = btn;
+                    button2 = btn;  
                 }
-                //why does this not work?
-                //btn = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ? button1 : button2;
-                //AF Because that statement is setting the btn variable.  Really you need the reverse though - to set button1 = btn, here you are trying to do btn = button1 (and same for button2)
+                //AF Because that statement is setting the btn variable.
+                //Really you need the reverse though - to set button1 = btn, here you are trying to do btn = button1 (and same for button2)
+                //mmg is this what you are saying I should do?
+                //button1 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ? btn : null;
+                //button2 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1 ? btn : null;
+
                 if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ||
                     lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1)
                 {
@@ -82,7 +90,7 @@ namespace MemoryGameApp
 
         private void BtnStart_Click(object? sender, EventArgs e)
         {
-            GameActive = true;
+            gameactive = true;
             SetupGame();
         }
         private bool TurnOver()
@@ -96,7 +104,7 @@ namespace MemoryGameApp
             {
                 lstcardbuttons.ForEach(b => b.ForeColor = Color.DodgerBlue);
                 currentturn = currentturn == TurnEnum.Player1 ? TurnEnum.Player2 : TurnEnum.Player1;
-                lblGameStatus.Text = currentturn.ToString();
+                DisplayGameStatus();
                 lblMessage.Text = "";
                 if (button1.Text == button2.Text)
                 {
@@ -105,7 +113,8 @@ namespace MemoryGameApp
                 }
                 if (btnNextTurn.Text == "End Game")
                 {
-                    lblGameStatus.Text = "Press Start to start new game";
+                    gamestatus = GameStatusEnum.GameOver;
+                    DisplayGameStatus();
                 }
             }
         }
@@ -133,20 +142,44 @@ namespace MemoryGameApp
 
         private void DetectingWinnerOrTie()
         {
-            if (lstcardbuttons.Count(b => b.Visible == false) == intcards - 2 && (TurnOver()))
+            if (lstcardbuttons.Count(b => b.Visible == false) == totalnumberofcards - 2 && (TurnOver()))
             {
                 btnNextTurn.Text = "End Game";
-                var msg = "";
                 if (Score1 == Score2)
                 {
-                    msg = "Tie Game!";
+                    gamestatus = GameStatusEnum.Tie;
+                    DisplayGameStatus();
                 }
                 else
                 {
-                    msg = Score1 > Score2 ? TurnEnum.Player1.ToString() + " wins!" : TurnEnum.Player2.ToString() + " wins!";
+                    gamestatus = GameStatusEnum.Winner;
+                    DisplayGameStatus();
                 }
-                lblGameStatus.Text = msg;
             }
+        }
+
+        private void DisplayGameStatus()
+        {
+            var msg = "";
+            switch (gamestatus)
+            {
+                case GameStatusEnum.NotStarted:
+                    msg = "Click Start to begin game";
+                    break;
+                case GameStatusEnum.Playing:
+                    msg = currentturn.ToString();
+                    break;
+                case GameStatusEnum.Winner:
+                    msg = Score1 > Score2 ? TurnEnum.Player1.ToString() + " wins!" : TurnEnum.Player2.ToString() + " wins!";
+                    break;
+                case GameStatusEnum.Tie:
+                    msg = "Tie!";
+                    break;
+                case GameStatusEnum.GameOver:
+                    msg = "Press Start to start new game";
+                    break;
+            }
+            lblGameStatus.Text = msg;
         }
     }
 }
