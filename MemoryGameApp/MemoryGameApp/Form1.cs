@@ -73,7 +73,7 @@ namespace MemoryGameApp
                 //mmg is this what you are saying I should do?
                 //button1 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ? btn : null;
                 //button2 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1 ? btn : null;
-                //AF No, what you did
+                //AF No, what you did is fine as is
 
                 if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ||
                     lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1)
@@ -155,6 +155,7 @@ namespace MemoryGameApp
             }
         }
 
+        //AF this is a nice procedure to have, happy you added this
         private void DisplayGameStatus()
         {
             var msg = "";
@@ -180,8 +181,3 @@ namespace MemoryGameApp
         }
     }
 }
-//do yo think I should add these in? I don't want to complicate things
-//display current turn procedure
-//display game status procedure
-//AF I think you can go eitherway.  It is generally nice to use a procedure when you have repeated code, but you are not repeating
-//that code too much, only in a couple places, so it is less of a need but still a good thing
