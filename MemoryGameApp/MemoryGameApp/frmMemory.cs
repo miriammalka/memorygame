@@ -72,12 +72,6 @@ namespace MemoryGameApp
                 {
                     button2 = btn;  
                 }
-                //AF Because that statement is setting the btn variable.
-                //Really you need the reverse though - to set button1 = btn, here you are trying to do btn = button1 (and same for button2)
-                //mmg is this what you are saying I should do?
-                //button1 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ? btn : null;
-                //button2 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1 ? btn : null;
-
                 if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ||
                     lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1)
                 {

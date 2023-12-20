@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIMemoryGame.MemoryGame"
+             Title="Memory Game">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border">
+                <Setter Property="Stroke" Value="Black"/>
+                <Setter Property="Margin" Value="2,2,2,2"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*" RowDefinitions="*,*,10*">
+                <Button Text="Start" HorizontalOptions="Start"  Grid.Column="0" Grid.Row="0" MinimumWidthRequest="150" FontSize="Medium" TextTransform="Uppercase" BackgroundColor="Magenta"/>
+            <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="2*,2*,*" RowDefinitions="*" BackgroundColor="Aqua">
+                <Border Grid.Column="0" Grid.Row="0">
+                    <Label Text="Score Player 1 = " VerticalTextAlignment="Center" />
+                </Border>
+                <Border Grid.Column="1" Grid.Row="0">
+                    <Label Text="Score Player 2 = "  VerticalTextAlignment="Center" />
+                </Border>
+                <Button Text="Next Turn" Grid.Column="2" Grid.Row="0"/>
+            </Grid>
+        <Border Grid.Column="0" Grid.Row="2" >
+                <Grid BackgroundColor="LightBlue" ColumnDefinitions="*,*,*,*,*" RowDefinitions="*,*,*,*">
+                <Button Grid.Column="0" Grid.Row="0" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="1" Grid.Row="0" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="2" Grid.Row="0" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="3" Grid.Row="0" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="4" Grid.Row="0" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="2" Grid.Row="1" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="3" Grid.Row="1" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="4" Grid.Row="1" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="2" Grid.Row="2" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="3" Grid.Row="2" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="4" Grid.Row="2" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="1" Grid.Row="3" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="2" Grid.Row="3" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="3" Grid.Row="3" Style="{StaticResource Key=memory-cards}"/>
+                <Button Grid.Column="4" Grid.Row="3" Style="{StaticResource Key=memory-cards}"/>
+            </Grid>
+        </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
