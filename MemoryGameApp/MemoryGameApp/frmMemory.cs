@@ -6,7 +6,6 @@ namespace MemoryGameApp
     public partial class frmMemory : Form
     {
         List<Button> lstcardbuttons;
-        //AF good to keep to keep to uniform naming convention - variable below should be all lowercase, as you named the rest of the variables in the project like that
         bool gameactive = false;
         Random rnd = new();
         private enum TurnEnum { Player1, Player2 }
@@ -17,7 +16,6 @@ namespace MemoryGameApp
         Button button2;
         int Score1 = 0;
         int Score2 = 0;
-        //AF I found this to be a confusing name - what is this variable for?  The card count?  I recommend to rename it
         int totalnumberofcards;
 
 
@@ -72,6 +70,12 @@ namespace MemoryGameApp
                 {
                     button2 = btn;  
                 }
+                //AF Because that statement is setting the btn variable.
+                //Really you need the reverse though - to set button1 = btn, here you are trying to do btn = button1 (and same for button2)
+                //mmg is this what you are saying I should do?
+                //button1 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ? btn : null;
+                //button2 = lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1 ? btn : null;
+
                 if (lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 0 ||
                     lstcardbuttons.Count(b => b.ForeColor == Color.Black) == 1)
                 {
@@ -152,6 +156,7 @@ namespace MemoryGameApp
             }
         }
 
+        //AF this is a nice procedure to have, happy you added this
         private void DisplayGameStatus()
         {
             var msg = "";
@@ -177,8 +182,3 @@ namespace MemoryGameApp
         }
     }
 }
-//do yo think I should add these in? I don't want to complicate things
-//display current turn procedure
-//display game status procedure
-//AF I think you can go eitherway.  It is generally nice to use a procedure when you have repeated code, but you are not repeating
-//that code too much, only in a couple places, so it is less of a need but still a good thing
