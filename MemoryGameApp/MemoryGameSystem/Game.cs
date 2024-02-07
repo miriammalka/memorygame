@@ -29,7 +29,30 @@ namespace MemoryGameSystem
             }
         }
 
-        public string GameStatusDescription { get => $"{this.GameStatus.ToString()}  Current Turn: {this.PlayerDescription}"; }
+        public string GameStatusDescription
+        {
+            get
+            {
+                string s = GameStatus.ToString();
+                string winner = Score1 > Score2 ? TurnEnum.Player1.ToString() : TurnEnum.Player2.ToString();
+                switch (this.GameStatus)
+                {
+                    case GameStatusEnum.NotStarted:
+                        s = "Click Start";
+                        break;
+                    case GameStatusEnum.Playing:
+                        s = s + $": Current Turn: {CurrentTurn}";
+                        break;
+                    case GameStatusEnum.Winner:
+                        s = s + ": " + winner + "! Game Over.";
+                        break;
+                    case GameStatusEnum.Tie:
+                        s = s;
+                        break;
+                }
+                return s;
+            }
+        }
 
         public string Score1Description { get => $"Score Player 1 = {this.Score1}"; }
         public string Score2Description { get => $"Score Player 2 = {this.Score2}"; }
@@ -97,7 +120,6 @@ namespace MemoryGameSystem
             {
                 this.Cards.Add(new Card());
             }
-
             this.CurrentTurn = TurnEnum.None;
             this.turnmessage = TurnMessageEnum.None;
         }
@@ -129,7 +151,6 @@ namespace MemoryGameSystem
             SetupGame();
         }
 
-
         //pass in cardnum
         public void TakeTurn(int cardnum)
         {
@@ -150,6 +171,7 @@ namespace MemoryGameSystem
                 {
                     card.cardforecolor = this.CardTurnColor;
                 }
+
                 DetectPoints();
                 DetectWinnerOrTie();
             }
@@ -166,12 +188,10 @@ namespace MemoryGameSystem
                
                 if (Card1.CardValue == Card2.CardValue)
                 {
-
                     Card1.cardforecolor = CardMatchColor;
                     Card2.cardforecolor = CardMatchColor;
                     Card1.cardenabled = false;
                     Card2.cardenabled = false;                   
-
                 }
                 else
                 {
@@ -191,7 +211,6 @@ namespace MemoryGameSystem
                     if (this.CurrentTurn == TurnEnum.Player1)
                     {
                         this.Score1 = Score1 + 1;
-                        
                     }
                     if (this.CurrentTurn == TurnEnum.Player2)
                     {
@@ -199,13 +218,13 @@ namespace MemoryGameSystem
                     }
                 }
             }
-
         }
 
         private void DetectWinnerOrTie()
         {
-            if (Cards.Count(b => b.cardforecolor == CardMatchColor) == 18 && Cards.Count(b => b.cardforecolor == CardTurnColor) == 2)
+            if (Score1 + Score2 == 10)
             {
+                Cards.ForEach(c => c.cardforecolor = CardMatchColor);
                 this.gameenabled = false;
                 if (Score1 == Score2)
                 {
@@ -214,7 +233,6 @@ namespace MemoryGameSystem
                 else
                 {
                     GameStatus = GameStatusEnum.Winner;
-
                 }
             }
         }

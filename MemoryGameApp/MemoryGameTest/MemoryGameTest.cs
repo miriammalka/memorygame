@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 namespace MemoryGameTest
 {
 
-
     public class Tests
     {
         Game game = new();
@@ -28,7 +27,6 @@ namespace MemoryGameTest
             Game game = new();
             game.StartGame();
             string msg = $"Game Status = {game.GameStatus} Current Turn = {game.CurrentTurn} Num Cards = {game.Cards.Count} Player1 Score = {game.Score1} Player2 Score = {game.Score2}";
-            //I also want to assert that they each have a picture
             Assert.IsTrue(game.GameStatus == Game.GameStatusEnum.Playing && game.CurrentTurn == Game.TurnEnum.Player1 && game.Cards.Count == 20 && game.Score1 == 0 && game.Score2 == 0, msg);
             TestContext.WriteLine(msg);
         }
@@ -99,6 +97,7 @@ namespace MemoryGameTest
         [Test]
         public void TestWinner()
         {
+            //make player 1 win
             game.StartGame();
 
             for (int i = 0; i < 7; i++)
