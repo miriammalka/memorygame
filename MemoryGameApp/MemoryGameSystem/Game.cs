@@ -7,7 +7,9 @@ namespace MemoryGameSystem
 {
     public class Game : INotifyPropertyChanged
     {
+        //I think I wrote all the backend code for HW 37, now need to implement it to front end
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? ScoreChanged;
         
         GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
         TurnEnum _currentturn = TurnEnum.None;
@@ -16,6 +18,15 @@ namespace MemoryGameSystem
         TurnMessageEnum _turnmessageenum = TurnMessageEnum.None;
         public bool gameenabled { get; set; } = false;
         
+        private static int score1wins;
+        private static int score2wins;
+        private static int scoreties;
+        private static int numgames;
+
+        public static string TotalScore { get => $"Player 1 wins = {score1wins}, Player 2 wins = {score2wins}, Tie = {scoreties}"; }
+
+        public string GameName { get; private set; }
+
         public List<Card> Cards { get; private set; } = new();
         public enum GameStatusEnum { NotStarted, Playing, Winner, Tie }
 
@@ -26,6 +37,7 @@ namespace MemoryGameSystem
                 _gamestatus = value;
                 this.InvokePropertyChanged();
                 this.InvokePropertyChanged("GameStatusDescription");
+                this.InvokePropertyChanged("StartButtonText");
             }
         }
 
@@ -33,18 +45,18 @@ namespace MemoryGameSystem
         {
             get
             {
-                string s = GameStatus.ToString();
+                string s = $"{this.GameName}, {GameStatus}";
                 string winner = Score1 > Score2 ? TurnEnum.Player1.ToString() : TurnEnum.Player2.ToString();
                 switch (this.GameStatus)
                 {
                     case GameStatusEnum.NotStarted:
-                        s = "Click Start";
+                        s = s + " Click Start";
                         break;
                     case GameStatusEnum.Playing:
-                        s = s + $": Current Turn: {CurrentTurn}";
+                        s = s + $" : Current Turn: {CurrentTurn}";
                         break;
                     case GameStatusEnum.Winner:
-                        s = s + ": " + winner + "! Game Over.";
+                        s = s + " : " + winner + "! Game Over.";
                         break;
                     case GameStatusEnum.Tie:
                         s = s;
@@ -54,8 +66,31 @@ namespace MemoryGameSystem
             }
         }
 
+        public string StartButtonText
+        {
+            
+            get
+            {
+                string s = "";
+                switch (this.GameStatus)
+                {
+                    case GameStatusEnum.NotStarted:
+                        s = s + "Start ";
+                        break;
+                    case GameStatusEnum.Playing:
+                    case GameStatusEnum.Winner:
+                    case GameStatusEnum.Tie:
+                        s = "Stop ";
+                        break;
+                }
+                s = s + this.GameName;
+                return s;
+            }
+        }
         public string Score1Description { get => $"Score Player 1 = {this.Score1}"; }
         public string Score2Description { get => $"Score Player 2 = {this.Score2}"; }
+
+        public static string Score { get => $"Player1 wins = {score1wins}: Player2 wins = {score2wins}: Ties = {scoreties}"; }
         public enum TurnEnum { None, Player1, Player2 }
 
         public TurnEnum CurrentTurn { 
@@ -115,7 +150,9 @@ namespace MemoryGameSystem
 
 
         public Game()
-        {
+        {            
+            numgames++;
+            this.GameName = "Game " + numgames;
             for (int i = 0; i < 20; i++)
             {
                 this.Cards.Add(new Card());
@@ -131,7 +168,7 @@ namespace MemoryGameSystem
             int n = lstpictures.Count();
             foreach (Card c in Cards)
             {
-                c.cardforecolor = CardBackColor;
+                ClearCards();
                 int index = rnd.Next(0, n);
                 c.CardValue = lstpictures[index];
                 lstpictures.Remove(lstpictures[index]);
@@ -149,6 +186,20 @@ namespace MemoryGameSystem
             this.GameStatus = GameStatusEnum.Playing;          
             this.CurrentTurn = TurnEnum.Player1;
             SetupGame();
+        }
+
+        public void StopGame()
+        {
+            this.GameStatus = GameStatusEnum.NotStarted;
+            this.gameenabled = false;
+            this.Score1 = 0;
+            this.Score2 = 0;
+            ClearCards();
+        }
+
+        private void ClearCards()
+        {
+            Cards.ForEach(c => c.cardforecolor = CardBackColor);
         }
 
         //pass in cardnum
@@ -228,12 +279,25 @@ namespace MemoryGameSystem
                 this.gameenabled = false;
                 if (Score1 == Score2)
                 {
+                    scoreties++;
                     GameStatus = GameStatusEnum.Tie;
+                    
                 }
                 else
                 {
                     GameStatus = GameStatusEnum.Winner;
+                    if(Score1 > Score2)
+                    {
+                        score1wins++;
+                        
+                    }
+                    if (Score2 > Score1)
+                    {
+                        score2wins++;
+                        
+                    }
                 }
+                ScoreChanged?.Invoke(this, new EventArgs());
             }
         }
 

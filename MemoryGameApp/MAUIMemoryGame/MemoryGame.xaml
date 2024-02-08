@@ -12,13 +12,28 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <VerticalStackLayout>
-        <Grid ColumnDefinitions="*" RowDefinitions="*,*,10*">
-            <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="*,*,*" RowDefinitions="*">
-                <Button x:Name="StartBtn" Text="Start" Grid.Column="0" Grid.Row="0" FontSize="Medium" TextTransform="Uppercase" BackgroundColor="Magenta" Clicked="StartBtn_Clicked"/>
+        <Grid ColumnDefinitions="*" RowDefinitions="*,*,*,*,Auto">
+            <Grid Grid.Row="0" Grid.Column="0" ColumnDefinitions="*,*,*,*" RowDefinitions="*" BackgroundColor="LightSkyBlue">
+                <Label Text="3 Simultaneous Games. Choose which one to play." VerticalOptions="Center" Grid.Row="0" Grid.Column="0" Margin="8,8,8,8"/>
+                <RadioButton x:Name="Game1Rb" Grid.Row="0" Grid.Column="1" Content="{Binding GameStatusDescription}" CheckedChanged="Game_CheckedChanged" IsChecked="True" />
+                <RadioButton x:Name="Game2Rb" Grid.Row="0" Grid.Column="2" Content="{Binding GameStatusDescription}" CheckedChanged="Game_CheckedChanged"/>
+                <RadioButton x:Name="Game3Rb" Grid.Row="0" Grid.Column="3" Content="{Binding GameStatusDescription}" CheckedChanged="Game_CheckedChanged"/>
+            </Grid>
+            
+            <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="*,*,*" RowDefinitions="*">
+                <Button x:Name="StartBtn" Grid.Column="0" Grid.Row="0" FontSize="Medium" TextTransform="Uppercase" BackgroundColor="Magenta" Clicked="StartBtn_Clicked" Text="{Binding StartButtonText}"/>
                 <Label x:Name="GameStatusLbl" Grid.Column="1" Grid.Row="0" BackgroundColor="LightPink" Margin="3,3,3,3" Text="{Binding GameStatusDescription}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                 <Label x:Name="TurnMessageLbl" Grid.Column="2" Grid.Row="0" BackgroundColor="LightPink" Margin="3,3,3,3" Text="{Binding TurnMessageDescription}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
             </Grid>
-            <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="2*,2*,*" RowDefinitions="*" BackgroundColor="Aqua">
+
+            <Grid Grid.Row="2" Grid.Column="0" RowDefinitions="*" ColumnDefinitions="*">
+                <Border Grid.Row="0" Grid.Column="0">
+                    <Label x:Name="ScoreLbl"  HorizontalTextAlignment="Center"  VerticalTextAlignment="Center" MinimumHeightRequest="50" BackgroundColor="LightSkyBlue"/>
+                </Border>
+
+            </Grid>
+            
+            <Grid Grid.Column="0" Grid.Row="3" ColumnDefinitions="2*,2*,*" RowDefinitions="*" BackgroundColor="Aqua">
                 <Border Grid.Column="0" Grid.Row="0">
                     <Label x:Name="Score1Lbl" Text="{Binding Score1Description}" VerticalTextAlignment="Center" />
                 </Border>
@@ -27,7 +42,8 @@
                 </Border>
                 <Button x:Name="NextTurnBtn" Text="Next Turn" Grid.Column="2" Grid.Row="0" Clicked="NextTurnBtn_Clicked"/>
             </Grid>
-        <Border Grid.Column="0" Grid.Row="2" >
+            
+        <Border Grid.Column="0" Grid.Row="4" >
                 <Grid BackgroundColor="LightBlue" ColumnDefinitions="*,*,*,*,*" RowDefinitions="*,*,*,*">
                     <Button x:Name="Btn1" Grid.Column="0" Grid.Row="0" Style="{StaticResource Key=memory-cards}" Clicked="Btn_Clicked" BindingContext="{Binding Cards[0]}" Text="{Binding CardValue}" TextColor="{Binding CardForeColorMaui}" BackgroundColor="{Binding CardBackColorMaui}" />
                     <Button x:Name="Btn2" Grid.Column="1" Grid.Row="0" Style="{StaticResource Key=memory-cards}" Clicked="Btn_Clicked" BindingContext="{Binding Cards[1]}" Text="{Binding CardValue}" TextColor="{Binding CardForeColorMaui}" BackgroundColor="{Binding CardBackColorMaui}"/>
