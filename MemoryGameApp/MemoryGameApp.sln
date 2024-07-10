@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAUIMemoryGame", "MAUIMemor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemoryGameSystem", "MemoryGameSystem\MemoryGameSystem.csproj", "{BCB5EF93-F45A-4D58-AD7A-7DAAFB5FB3D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryGameTest", "MemoryGameTest\MemoryGameTest.csproj", "{FA1112EF-BC4F-488B-95C3-413783E8C4D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemoryGameTest", "MemoryGameTest\MemoryGameTest.csproj", "{FA1112EF-BC4F-488B-95C3-413783E8C4D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryGameWeb", "MemoryGameWeb\MemoryGameWeb.csproj", "{9DE01C33-58F3-4407-8E5F-8C02EBA66F5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{FA1112EF-BC4F-488B-95C3-413783E8C4D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA1112EF-BC4F-488B-95C3-413783E8C4D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA1112EF-BC4F-488B-95C3-413783E8C4D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE01C33-58F3-4407-8E5F-8C02EBA66F5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE01C33-58F3-4407-8E5F-8C02EBA66F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE01C33-58F3-4407-8E5F-8C02EBA66F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE01C33-58F3-4407-8E5F-8C02EBA66F5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

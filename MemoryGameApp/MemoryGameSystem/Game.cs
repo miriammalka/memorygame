@@ -75,11 +75,11 @@ namespace MemoryGameSystem
                 switch (this.GameStatus)
                 {
                     case GameStatusEnum.NotStarted:
+                    case GameStatusEnum.Winner:
+                    case GameStatusEnum.Tie:
                         s = s + "Start ";
                         break;
                     case GameStatusEnum.Playing:
-                    case GameStatusEnum.Winner:
-                    case GameStatusEnum.Tie:
                         s = "Stop ";
                         break;
                 }

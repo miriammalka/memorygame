@@ -25,13 +25,13 @@ public partial class MemoryGame : ContentPage
 
     private void StartBtn_Clicked(object sender, EventArgs e)
     {
-        if(activegame.GameStatus == Game.GameStatusEnum.NotStarted)
+        if(activegame.GameStatus == Game.GameStatusEnum.Playing)
         {
-            activegame.StartGame();
+            activegame.StopGame();
         }
         else
         {
-            activegame.StopGame();
+            activegame.StartGame();
         }
     }
 
