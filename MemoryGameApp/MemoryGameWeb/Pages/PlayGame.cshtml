@@ -119,8 +119,7 @@
     document.querySelector("#btnNextTurn").addEventListener("click", nextTurn);
     memorycards.forEach(c => c.addEventListener("click", cardClicked));
 
-    toggleButtonEvents();
-   //MME organize functions
+   
 
 
     function startGame() {
@@ -143,11 +142,17 @@
             lstpictures.splice(index, 1);
             n = n - 1;
         }
-        memorycards.forEach(m => m.style.color = "white");
+        memorycards.forEach(m => m.style.color = "deeppink");
         scoreDisplay1.textContent = "";
         scoreDisplay2.textContent = "";
         messageDisplay.textContent = "";
         toggleTableEvents();
+        memorycards.forEach(m => m.disabled = false);
+        memorycards.forEach(m => m.style.pointerEvents = "all");
+        btnNextTurn.disabled = true;
+        clickedCards.length = 0;
+        player1.score = 0;
+        player2.score = 0;
     }
 
     function startButtonText(){
@@ -206,6 +211,8 @@
         if (clickedCards.length == 2) {
             toggleTableEvents();
             toggleButtonEvents();
+            memorycards.forEach(m => m.style.pointerEvents = "none");
+            //btnNextTurn.disabled = false;
             //determine if both cards clicked match
             match = clickedCards[0].textContent == clickedCards[1].textContent;
             console.log(match);
@@ -223,13 +230,14 @@
 
     function nextTurn() {     
         toggleButtonEvents();
+        memorycards.forEach(m => m.style.pointerEvents = "all");
         if (match) {
             //if match, remove cards    
             clickedCards.forEach(c => c.disabled = true);
         }
         else{
             //turn over cards if no match
-            clickedCards.forEach(c => c.style.color = "white");
+            clickedCards.forEach(c => c.style.color = "deeppink");
         }
         toggleTableEvents();
         //empty clickedCards
