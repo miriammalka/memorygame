@@ -1,0 +1,277 @@
+﻿@page
+@model MemoryGameWeb.Pages.jQueryPlayGameModel
+@{
+}
+
+<div class="div-style">
+    <div>
+        <button id="btnStart" class="btn btn-primary game-button">Start</button>
+    </div>
+    <div id="messageDisplay" class="textbox"></div>
+    <div id="currentPlayerDisplay" class="textbox"></div>
+    <div>
+        <button id="btnNextTurn" class="btn btn-primary game-button">Next Turn</button>
+    </div>
+</div>
+<div class="div-style">
+    <div>
+        <label class="label-style">Score Player 1:</label>
+    </div>
+    <div id="scoreplayer1" class="textbox"></div>
+    <div>
+        <label class="label-style">Score Player 2:</label>
+    </div>
+    <div id="scoreplayer2" class="textbox"></div>
+</div>
+<div class="row">
+    <table>
+        <tr>
+            <td>
+                <button id="btn1" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn2" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn3" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn4" class="memory-card"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="btn5" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn6" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn7" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn8" class="memory-card"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="btn9" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn10" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn11" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn12" class="memory-card"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="btn13" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn14" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn15" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn16" class="memory-card"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="btn17" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn18" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn19" class="memory-card"></button>
+            </td>
+            <td>
+                <button id="btn20" class="memory-card"></button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        let scoreDisplay1;
+        let scoreDisplay2;
+        const player1 = { name: "Player 1", score: 0, scoreDisplay: scoreDisplay1 };
+        const player2 = { name: "Player 2", score: 0, scoreDisplay: scoreDisplay2 };
+        let currentPlayer = player1;
+        let gameover = false;
+        let lstpictures = [];
+        let clickedCards = [];
+        let messageDisplay;
+        let currentPlayerDisplay;
+        let memorycards;
+        let btnStart;
+        let btnNextTurn;
+        let table;
+        let match = {};
+
+        $document.ready(function () {
+            scoreDisplay1 = document.querySelector("#scoreplayer1");
+            scoreDisplay2 = document.querySelector("#scoreplayer2");
+            messageDisplay = document.querySelector("#messageDisplay");
+            currentPlayerDisplay = document.querySelector("#currentPlayerDisplay");
+            memorycards = [...document.querySelectorAll(".memory-card")];
+            btnStart = document.querySelector("#btnStart");
+            btnNextTurn = document.querySelector("#btnNextTurn");
+            table = document.querySelector("table");
+
+            $(btnStart).click(startGame);
+            $(btnNextTurn).click(nextTurn);
+            $(memorycards).click(cardClicked);
+        });
+
+
+        function startGame() {
+            gameover = false;
+            currentPlayer = player1;
+            setUpGame();
+            displayCurrentPlayer();
+            startButtonText();
+        }
+
+        function setUpGame() {
+            clearCards();
+            lstpictures = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+            let n = lstpictures.length;
+            for (let m of memorycards) {
+
+                let index = Math.floor(Math.random() * n);
+                m.textContent = lstpictures[index];
+                lstpictures.splice(index, 1);
+                n = n - 1;
+            }
+            $(memorycards).style.color("deeppink");
+            scoreDisplay1.textContent = "";
+            scoreDisplay2.textContent = "";
+            messageDisplay.textContent = "";
+            toggleTableEvents();
+            $(memorycards).disabled("false");
+            $(memorycards).style.pointerEvents("all");
+            btnNextTurn.disabled = true;
+            clickedCards.length = 0;
+            player1.score = 0;
+            player2.score = 0;
+        }
+
+        function startButtonText() {
+            btnStart.textContent = gameover == false ? "Restart Game" : "Click to Start New Game";
+        }
+
+        function displayCurrentPlayer() {
+            currentPlayerDisplay.textContent = currentPlayer.name;
+        }
+
+        function displayGameMessage() {
+            if (gameover == false) {
+                if (clickedCards.length == 2) {
+                    messageDisplay.textContent = match ?
+                        "Match!" : "No Match";
+                }
+                else {
+                    messageDisplay.textContent = "";
+                }
+            }
+            if (gameover) {
+                if (player1.score == player2.score) {
+                    messageDisplay.textContent = "Tie!";
+                }
+                else {
+                    messageDisplay.textContent = player1.score > player2.score ? "Winner is: " + player1.name : "Winner is: " + player2.name;
+
+                }
+            }
+        }
+
+        function toggleTableEvents() {
+            //MME look into this
+            table.style.pointerEvents = "none" ? "all" : "none";
+            // table.style.pointerEvents == "none" ?
+            //     table.style.pointerEvents = "all" :
+            //     table.style.pointerEvents = "none";
+        }
+
+        function toggleButtonEvents() {
+            // btnNextTurn.disabled == true ? btnNextTurn.disabled = false : btnNextTurn.disabled = true;
+            btnNextTurn.disabled = !btnNextTurn.disabled;
+            console.log("button next turn disabled = ", btnNextTurn.disabled);
+        }
+
+        function cardClicked(event) {
+            const btn = event.target;
+            doTurn(btn);
+        }
+
+        function doTurn(btn) {
+            clickedCards.push(btn);
+            btn.style.pointerEvents = "none";
+            console.log(clickedCards.length);
+            btn.style.color = "black";
+            if (clickedCards.length == 2) {
+                toggleTableEvents();
+                toggleButtonEvents();
+                $(memorycard).style.pointerEvents("none");
+                //btnNextTurn.disabled = false;
+                //determine if both cards clicked match
+                match = clickedCards[0].textContent == clickedCards[1].textContent;
+                console.log(match);
+                if (match) {
+                    //increment score of curent turn if match
+                    currentPlayer.score += 1;
+                    console.log(currentPlayer.score);
+                    currentPlayer.scoreDisplay.textContent = currentPlayer.score;
+                    //tell player outcome of turn
+                }
+                displayGameMessage();
+                detectWinnerOrTie();
+            }
+        }
+
+        function nextTurn() {
+            toggleButtonEvents();
+            $(memorycard).style.pointerEvents("all");
+            if (match) {
+                //if match, remove cards
+                $(clickedCards).disabled(true);                
+            }
+            else {
+                //turn over cards if no match
+                $(clickedCards).style.color("deeppink");
+            }
+            toggleTableEvents();
+            //empty clickedCards
+            clickedCards.length = 0;
+            console.log("clicked cards length", clickedCards.length);
+            //switch turn
+            currentPlayer = currentPlayer == player1 ? player2 : player1;
+            displayCurrentPlayer();
+            displayGameMessage();
+        }
+
+        function detectWinnerOrTie() {
+            if (player1.score + player2.score == 10) {
+                $(clickedCards).disabled(true);
+                gameover = true;
+                //disable next turn button
+                toggleButtonEvents();
+                startButtonText();
+                displayGameMessage();
+            }
+        }
+
+        function clearCards() {
+            $(memorycards).text("");
+        }
+    </script>
+}

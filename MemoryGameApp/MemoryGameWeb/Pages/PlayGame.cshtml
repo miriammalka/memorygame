@@ -3,21 +3,21 @@
 @{
 }
 <div class="div-style">
-    <div class="">
+    <div>
         <button id="btnStart" class="btn btn-primary game-button">Start</button>
     </div>
     <div id="messageDisplay" class="textbox"></div>
     <div id="currentPlayerDisplay" class="textbox"></div>
-    <div class="">
+    <div>
         <button id="btnNextTurn" class="btn btn-primary game-button">Next Turn</button>
     </div>
 </div>
 <div class="div-style"> 
-    <div class="">
+    <div>
         <label class="label-style">Score Player 1:</label>
     </div>
     <div id="scoreplayer1" class="textbox"></div>
-    <div class="">
+    <div>
         <label class="label-style">Score Player 2:</label>
     </div>
     <div id="scoreplayer2" class="textbox"></div>
@@ -251,6 +251,7 @@
 
     function detectWinnerOrTie() {
         if (player1.score + player2.score == 10) {
+            clickedCards.forEach(c => c.disabled = true);
             gameover = true;
             //disable next turn button
             toggleButtonEvents();
