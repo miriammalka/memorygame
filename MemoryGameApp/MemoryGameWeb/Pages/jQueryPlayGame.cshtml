@@ -102,8 +102,8 @@
     <script>
         let scoreDisplay1;
         let scoreDisplay2;
-        const player1 = { name: "Player 1", score: 0, scoreDisplay: scoreDisplay1 };
-        const player2 = { name: "Player 2", score: 0, scoreDisplay: scoreDisplay2 };
+        let player1;
+        let player2;
         let currentPlayer = player1;
         let gameover = false;
         let lstpictures = [];
@@ -116,7 +116,7 @@
         let table;
         let match = {};
 
-        $document.ready(function () {
+            $(document).ready(function () {
             scoreDisplay1 = document.querySelector("#scoreplayer1");
             scoreDisplay2 = document.querySelector("#scoreplayer2");
             messageDisplay = document.querySelector("#messageDisplay");
@@ -125,6 +125,8 @@
             btnStart = document.querySelector("#btnStart");
             btnNextTurn = document.querySelector("#btnNextTurn");
             table = document.querySelector("table");
+            player1 = { name: "Player 1", score: 0, scoreDisplay: scoreDisplay1 };
+            player2 = { name: "Player 2", score: 0, scoreDisplay: scoreDisplay2 };
 
             $(btnStart).click(startGame);
             $(btnNextTurn).click(nextTurn);
@@ -152,13 +154,13 @@
                 lstpictures.splice(index, 1);
                 n = n - 1;
             }
-            $(memorycards).style.color("deeppink");
+            memorycards.forEach(m => m.style.color = "deeppink");
             scoreDisplay1.textContent = "";
             scoreDisplay2.textContent = "";
             messageDisplay.textContent = "";
             toggleTableEvents();
-            $(memorycards).disabled("false");
-            $(memorycards).style.pointerEvents("all");
+            memorycards.forEach(m => m.disabled = false);
+            memorycards.forEach(m => m.style.pointerEvents = "all");
             btnNextTurn.disabled = true;
             clickedCards.length = 0;
             player1.score = 0;
@@ -221,7 +223,7 @@
             if (clickedCards.length == 2) {
                 toggleTableEvents();
                 toggleButtonEvents();
-                $(memorycard).style.pointerEvents("none");
+                memorycards.forEach(m => m.style.pointerEvents = "none");
                 //btnNextTurn.disabled = false;
                 //determine if both cards clicked match
                 match = clickedCards[0].textContent == clickedCards[1].textContent;
@@ -240,14 +242,14 @@
 
         function nextTurn() {
             toggleButtonEvents();
-            $(memorycard).style.pointerEvents("all");
+            memorycards.forEach(m => m.style.pointerEvents = "all");
             if (match) {
                 //if match, remove cards
-                $(clickedCards).disabled(true);                
+                clickedCards.forEach(c => c.disabled = true);               
             }
             else {
                 //turn over cards if no match
-                $(clickedCards).style.color("deeppink");
+                clickedCards.forEach(c => c.style.color = "deeppink");
             }
             toggleTableEvents();
             //empty clickedCards
@@ -261,7 +263,7 @@
 
         function detectWinnerOrTie() {
             if (player1.score + player2.score == 10) {
-                $(clickedCards).disabled(true);
+                clickedCards.forEach(c => c.disabled = true);
                 gameover = true;
                 //disable next turn button
                 toggleButtonEvents();
