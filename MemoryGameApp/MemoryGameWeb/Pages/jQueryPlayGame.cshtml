@@ -117,8 +117,8 @@
         let match = {};
 
             $(document).ready(function () {
-            scoreDisplay1 = document.querySelector("#scoreplayer1");
-            scoreDisplay2 = document.querySelector("#scoreplayer2");
+            scoreDisplay1 = $("#scoreplayer1");
+            scoreDisplay2 = $("#scoreplayer2");
             messageDisplay = document.querySelector("#messageDisplay");
             currentPlayerDisplay = document.querySelector("#currentPlayerDisplay");
             memorycards = [...document.querySelectorAll(".memory-card")];
@@ -155,8 +155,8 @@
                 n = n - 1;
             }
             memorycards.forEach(m => m.style.color = "deeppink");
-            scoreDisplay1.textContent = "";
-            scoreDisplay2.textContent = "";
+            scoreDisplay1.text("");
+            scoreDisplay2.text("");
             messageDisplay.textContent = "";
             toggleTableEvents();
             memorycards.forEach(m => m.disabled = false);
@@ -232,7 +232,7 @@
                     //increment score of curent turn if match
                     currentPlayer.score += 1;
                     console.log(currentPlayer.score);
-                    currentPlayer.scoreDisplay.textContent = currentPlayer.score;
+                    currentPlayer.scoreDisplay.text(currentPlayer.score);
                     //tell player outcome of turn
                 }
                 displayGameMessage();
